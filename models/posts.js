@@ -2,39 +2,43 @@ const {postsDatabase} = require('../database/DbEnviroment.js');
 
 module.exports = {
     async createPost(blogPost) {
-        await postsDatabase.insert(blogPost)
+        let newBlogPost = await postsDatabase.insert(blogPost)
         .then(blogPost => {
             return blogPost;
         })
         .catch(error => {
             return error;
-        })
+        });
+        return newBlogPost;
     },
     async getAllPosts() {
-        await postsDatabase.find({})
+        let blogPosts = await postsDatabase.find({})
         .then(blogPosts => {
             return blogPosts;
         })
         .catch(error => {
             return error;
-        })
+        });
+        return blogPosts;
     },
     async updatePost(blogPost, blogPostID) {
-        await postsDatabase.update({_id: blogPostID}, {$set: blogPost})
+        let updatedBlogPost = await postsDatabase.update({_id: blogPostID}, {$set: blogPost})
         .then(blogPost => {
             return blogPost;
         })
         .catch(error => {
             return error;
-        })
+        });
+        return updatedBlogPost;
     },
     async deletePost(blogPostID) {
-        await postsDatabase.remove({_id: blogPostID})
+        let deletedBlogPost = await postsDatabase.remove({_id: blogPostID})
         .then(deletedPost => {
             return deletedPost;
         })
         .catch(error => {
             return error;
-        })
+        });
+        return deletedBlogPost;
     }
 };

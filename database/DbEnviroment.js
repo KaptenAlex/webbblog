@@ -1,21 +1,22 @@
 require('dotenv').config();
 const Datastore = require('nedb-promises');
 
-let postsDatabase /*, usersDatabase */;
+let postsDatabase, commentsDatabase/*, usersDatabase */;
 switch (process.env.ENVIROMENT) {
     case 'development':
         postsDatabase = new Datastore({ filename: './database/posts.db', autoload: true });
-        //usersDatabase = new nedb({ filename: './database/users.db', autoload: true });
+        commentsDatabase = new Datastore({ filename: './database/comments.db', autoload: true });
         break;
     case 'test':
-        //postsDatabase = new nedb({ filename: './database/posts.db', autoload: true });
-        //usersDatabase = new nedb({ filename: './database/usersTest.db', autoload: true });
+        //postsDatabase = new Datastore({ filename: './database/posts.db', autoload: true });
+        //commentsDatabase = new Datastore({ filename: './database/usersTest.db', autoload: true });
         //postsDatabase.remove({}, {multi: true});
-        //usersDatabase.remove({}, {multi: true});
+        //commentsDatabase.remove({}, {multi: true});
         break;
 }
 
 module.exports = {
-    postsDatabase
+    postsDatabase,
+    commentsDatabase
     //usersDatabase
 };
