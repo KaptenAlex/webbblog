@@ -1,15 +1,21 @@
 const {commentsDatabase} = require('../database/DbEnviroment.js');
+const postsModel = require('./posts.js');
 
 module.exports = {
     async createComment(comment) {
-        let newComment = await commentsDatabase.insert(comment)
-        .then(comment => {
-            return comment;
-        })
-        .catch(error => {
-            return error;
-        });
-        return newComment;
+        let findPost = await postsModel.getPost(comment.postID);
+        if (findPost.error) {
+            return findPost;
+        } else {
+            let createComment = await commentsDatabase.insert(comment)
+            .then(comment => {
+                return comment;
+            })
+            .catch(error => {
+                return error;
+            });
+            return createComment;   
+        }
     },
     async getAllComments() {
         let comments = await commentsDatabase.find({})

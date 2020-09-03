@@ -7,7 +7,8 @@ module.exports = {
                 comment: req.body.comment,
                 created: Date.now(),
                 updated: Date.now(),
-                commentOwnerID: req.body.userId
+                commentOwnerID: req.body.userId,
+                postID: req.params.postID
             };
             const newComment = await commentModel.createComment(comment);
             res.json(newComment);
