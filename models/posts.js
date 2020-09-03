@@ -40,5 +40,18 @@ module.exports = {
             return error;
         });
         return deletedBlogPost;
+    },
+    async getPost(blogPostID) {
+        let findBlogPost = await postsDatabase.findOne({_id: blogPostID})
+        .then(foundPost => {
+            if(foundPost === null) {
+                return ({error: `Post did not exist with id: ${blogPostID}`});
+            }
+            return foundPost;
+        })
+        .catch(error => {
+            return error;
+        });
+        return findBlogPost;
     }
 };

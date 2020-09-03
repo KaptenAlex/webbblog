@@ -44,5 +44,13 @@ module.exports = {
         } catch (error) {
             res.json(error);
         }
+    },
+    getPost: async(req, res) => {
+        try {
+            const blogPost = await postModel.getPost(req.params.blogPostID);
+            res.json(blogPost);
+        } catch (error) {
+            res.json(error)
+        }
     }
 }
