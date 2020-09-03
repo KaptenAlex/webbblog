@@ -22,24 +22,34 @@ module.exports = {
         return blogPosts;
     },
     async updatePost(blogPost, blogPostID) {
-        let updatedBlogPost = await postsDatabase.update({_id: blogPostID}, {$set: blogPost})
-        .then(blogPost => {
-            return blogPost;
-        })
-        .catch(error => {
-            return error;
-        });
-        return updatedBlogPost;
+        let getPost = await this.getPost(blogPostID);
+        if (getPost.error) {
+            return getPost;
+        } else {
+            let updatedBlogPost = await postsDatabase.update({_id: blogPostID}, {$set: blogPost})
+            .then(blogPost => {
+                return blogPost;
+            })
+            .catch(error => {
+                return error;
+            });
+            return updatedBlogPost;   
+        }
     },
     async deletePost(blogPostID) {
-        let deletedBlogPost = await postsDatabase.remove({_id: blogPostID})
-        .then(deletedPost => {
-            return deletedPost;
-        })
-        .catch(error => {
-            return error;
-        });
-        return deletedBlogPost;
+        let getPost = await this.getPost(blogPostID);
+        if (getPost.error) {
+            return getPost;
+        } else {
+            let deletedBlogPost = await postsDatabase.remove({_id: blogPostID})
+            .then(deletedPost => {
+                return deletedPost;
+            })
+            .catch(error => {
+                return error;
+            });
+            return deletedBlogPost;
+        }
     },
     async getPost(blogPostID) {
         let findBlogPost = await postsDatabase.findOne({_id: blogPostID})

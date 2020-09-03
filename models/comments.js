@@ -28,23 +28,47 @@ module.exports = {
         return comments;
     },
     async updateComment(comment, commentID) {
-        let updatedComment = await commentsDatabase.update({_id: commentID}, {$set: comment})
-        .then(comment => {
-            return comment;
-        })
-        .catch(error => {
-            return error;
-        });
-        return updatedComment;
+        let findComment = await this.getComment(commentID);
+        if (findComment.error) {
+            return findComment;
+        } else {
+            let updatedComment = await commentsDatabase.update({_id: commentID}, {$set: comment})
+            .then(comment => {
+                return comment;
+            })
+            .catch(error => {
+                return error;
+            });   
+            return updatedComment;
+        }
     },
     async deleteComment(commentID) {
-        let removedComment = await commentsDatabase.remove({_id: commentID})
-        .then(deletedComment => {
-            return deletedComment;
+        let findComment = await this.getComment(commentID);
+        if (findComment.error) {
+            return findComment;
+        } else {
+            let removedComment = await commentsDatabase.remove({_id: commentID})
+            .then(deletedComment => {
+                return deletedComment;
+            })
+            .catch(error => {
+                return error;
+            });
+            return removedComment;
+        }
+    },
+    async getComment(commentID) {
+        let comment = await commentsDatabase.findOne({_id: commentID})
+        .then(comment => {
+            if (comment === null) {
+                return ({error: `Comment did not exist with id: ${commentID}`});
+            } else {
+                return comment;
+            }
         })
         .catch(error => {
             return error;
         });
-        return removedComment;
+        return comment;
     }
 };

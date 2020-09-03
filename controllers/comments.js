@@ -43,5 +43,13 @@ module.exports = {
         } catch (error) {
             res.json(error);
         }
+    },
+    getComment: async(req, res) => {
+        try {
+            const findComment = await commentModel.getComment(req.params.commentID);
+            res.json(findComment);
+        } catch (error) {
+            res.json(error);
+        }
     }
 }
